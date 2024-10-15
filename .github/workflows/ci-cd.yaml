@@ -57,13 +57,18 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
           script: |
             set -e
-            docker pull ${{ secrets.DOCKER_USERNAME }}/my-app:latest
-            docker stop my-app-container || true
-            docker rm my-app-container || true
-            docker run -d -p 3000:3000 --name my-app-container ${{ secrets.DOCKER_USERNAME }}/my-app:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/my-app:latest
+            sudo docker stop my-app-container || true
+            sudo docker rm my-app-container || true
+            sudo docker run -d -p 3000:3000 --name my-app-container ${{ secrets.DOCKER_USERNAME }}/my-app:latest
             echo "Deployment successful"
+
+      - name: Debug SSH connection
+        run: |
+          ssh -vvv -o StrictHostKeyChecking=no -i <(echo "${{ secrets.SSH_PRIVATE_KEY }}") ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} echo "SSH connection successful"
 
 permissions:
   contents: read
