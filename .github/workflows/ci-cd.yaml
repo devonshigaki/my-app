@@ -52,17 +52,18 @@ jobs:
     needs: build
     steps:
       - name: SSH to GCP and deploy
-        uses: appleboy/ssh-action@v0.1.3
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ''
           script: |
+            set -e
             docker pull ${{ secrets.DOCKER_USERNAME }}/my-app:latest
             docker stop my-app-container || true
             docker rm my-app-container || true
             docker run -d -p 3000:3000 --name my-app-container ${{ secrets.DOCKER_USERNAME }}/my-app:latest
+            echo "Deployment successful"
 
 permissions:
   contents: read
