@@ -12,3 +12,18 @@ npm run dev
 yarn dev
 # or
 pnpm dev
+
+```
+
+## Docker Compose
+
+To run the application using Docker Compose:
+
+1. Make sure you have Docker and Docker Compose installed on your system.
+2. Run the following command in the project root:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+3. The application will be available at http://localhost:3000
