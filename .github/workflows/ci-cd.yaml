@@ -6,7 +6,8 @@ on:
       - main
 
 env:
-  DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}
+  DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.sha }}
+  GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
 
 permissions:
   contents: read
@@ -45,6 +46,8 @@ jobs:
         run: |
           docker-compose build
           docker-compose push
+        env:
+          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
 
   deploy:
     runs-on: ubuntu-latest

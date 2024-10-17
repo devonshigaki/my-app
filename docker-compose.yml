@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ${DOCKER_USERNAME}/my-app:${IMAGE_TAG:-latest}
+    image: ${DOCKER_IMAGE:-$DOCKER_USERNAME/$GITHUB_REPOSITORY_NAME:latest}
     container_name: my-app-container
     ports:
       - "3000:3000"
